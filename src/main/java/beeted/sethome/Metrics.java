@@ -76,12 +76,10 @@ public class Metrics {
             config
                     .options()
                     .header(
-                            "bStats (https://bStats.org) collects some basic information for plugin authors, like how\n"
-                                    + "many people use their plugin and their total player count. It's recommended to keep bStats\n"
-                                    + "enabled, but if you're not comfortable with this, you can turn this setting off. There is no\n"
-                                    + "performance penalty associated with having metrics enabled, and data sent to bStats is fully\n"
-                                    + "anonymous.")
-                    .copyDefaults(true);
+                        "bStats (https://bStats.org) 为插件作者收集一些基本信息，例如\n"
+                        + "有多少人使用他们的插件以及总玩家数量。建议保持 bStats\n"
+                        + "启用，但如果你对此感到不适，可以关闭此设置。启用统计功能不会\n"
+                        + "对性能产生任何影响，并且发送给 bStats 的数据是完全匿名的。").copyDefaults(true);
             try {
                 config.save(configFile);
             } catch (IOException ignored) {
@@ -319,7 +317,7 @@ public class Metrics {
                         } catch (Exception e) {
                             // Something went wrong! :(
                             if (logErrors) {
-                                errorLogger.accept("Could not submit bStats metrics data", e);
+                                errorLogger.accept("无法提交 bStats 统计数据 ", e);
                             }
                         }
                     });
@@ -327,7 +325,7 @@ public class Metrics {
 
         private void sendData(JsonObjectBuilder.JsonObject data) throws Exception {
             if (logSentData) {
-                infoLogger.accept("Sent bStats metrics data: " + data.toString());
+                infoLogger.accept("已发送 bStats 统计数据： " + data.toString());
             }
             String url = String.format(REPORT_URL, platform);
             HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
@@ -353,7 +351,7 @@ public class Metrics {
                 }
             }
             if (logResponseStatusText) {
-                infoLogger.accept("Sent data to bStats and received response: " + builder);
+                infoLogger.accept("已向 bStats 发送数据并收到响应： " + builder);
             }
         }
 
@@ -372,7 +370,7 @@ public class Metrics {
                 // package names
                 if (MetricsBase.class.getPackage().getName().startsWith(defaultPackage)
                         || MetricsBase.class.getPackage().getName().startsWith(examplePackage)) {
-                    throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
+                    throw new IllegalStateException("bStats Metrics 类未正确重定位！ ");
                 }
             }
         }
@@ -441,7 +439,7 @@ public class Metrics {
 
         protected CustomChart(String chartId) {
             if (chartId == null) {
-                throw new IllegalArgumentException("chartId must not be null");
+                throw new IllegalArgumentException("chartId 不得为空 ");
             }
             this.chartId = chartId;
         }
@@ -459,7 +457,7 @@ public class Metrics {
                 builder.appendField("data", data);
             } catch (Throwable t) {
                 if (logErrors) {
-                    errorLogger.accept("Failed to get data for custom chart with id " + chartId, t);
+                    errorLogger.accept("获取自定义图表数据失败，ID 为 "+ chartId, t);
                 }
                 return null;
             }
@@ -711,7 +709,7 @@ public class Metrics {
          */
         public JsonObjectBuilder appendField(String key, String value) {
             if (value == null) {
-                throw new IllegalArgumentException("JSON value must not be null");
+                throw new IllegalArgumentException("JSON 值不得为空 ");
             }
             appendFieldUnescaped(key, "\"" + escape(value) + "\"");
             return this;
@@ -738,7 +736,7 @@ public class Metrics {
          */
         public JsonObjectBuilder appendField(String key, JsonObject object) {
             if (object == null) {
-                throw new IllegalArgumentException("JSON object must not be null");
+                throw new IllegalArgumentException("JSON 对象不得为空 ");
             }
             appendFieldUnescaped(key, object.toString());
             return this;
@@ -753,7 +751,7 @@ public class Metrics {
          */
         public JsonObjectBuilder appendField(String key, String[] values) {
             if (values == null) {
-                throw new IllegalArgumentException("JSON values must not be null");
+                throw new IllegalArgumentException("JSON 值们不得为空 ");
             }
             String escapedValues =
                     Arrays.stream(values)
@@ -772,7 +770,7 @@ public class Metrics {
          */
         public JsonObjectBuilder appendField(String key, int[] values) {
             if (values == null) {
-                throw new IllegalArgumentException("JSON values must not be null");
+                throw new IllegalArgumentException("JSON 值不得为空 ");
             }
             String escapedValues =
                     Arrays.stream(values).mapToObj(String::valueOf).collect(Collectors.joining(","));
@@ -789,7 +787,7 @@ public class Metrics {
          */
         public JsonObjectBuilder appendField(String key, JsonObject[] values) {
             if (values == null) {
-                throw new IllegalArgumentException("JSON values must not be null");
+                throw new IllegalArgumentException("JSON 值不得为空");
             }
             String escapedValues =
                     Arrays.stream(values).map(JsonObject::toString).collect(Collectors.joining(","));
@@ -805,10 +803,10 @@ public class Metrics {
          */
         private void appendFieldUnescaped(String key, String escapedValue) {
             if (builder == null) {
-                throw new IllegalStateException("JSON has already been built");
+                throw new IllegalStateException("JSON 已经构建完成 ");
             }
             if (key == null) {
-                throw new IllegalArgumentException("JSON key must not be null");
+                throw new IllegalArgumentException("JSON 键不得为空 ");
             }
             if (hasAtLeastOneField) {
                 builder.append(",");
@@ -824,7 +822,7 @@ public class Metrics {
          */
         public JsonObject build() {
             if (builder == null) {
-                throw new IllegalStateException("JSON has already been built");
+                throw new IllegalStateException("JSON 已经构建完成 ");
             }
             JsonObject object = new JsonObject(builder.append("}").toString());
             builder = null;

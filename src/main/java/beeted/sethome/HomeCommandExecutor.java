@@ -30,19 +30,19 @@ public class HomeCommandExecutor implements CommandExecutor {
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("sethome.reload")) {
                 plugin.reloadConfig();
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.plugin-reloaded", "&aPlugin reloaded successfully.")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.plugin-reloaded", "&a插件已成功重新加载。 ")));
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.no-permissions", "&cYou don't have permission to do that.")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.no-permissions", "&c你没有权限执行此操作。")));
             }
             return true;
         }
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aOpening the home menu..."));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a正在打开家园菜单..."));
             // Lógica para abrir el menú
         } else {
-            sender.sendMessage(ChatColor.RED + "This command can only be executed by a player.");
+            sender.sendMessage(ChatColor.RED + "此命令只能由玩家执行。 ");
         }
         return true;
     }
@@ -61,10 +61,10 @@ public class HomeCommandExecutor implements CommandExecutor {
                     return plugin.getCommandExecutor().onCommand(sender, this, label, args);
                 }
             };
-            ((BukkitCommand) dynamicCommand).setDescription("Open the home menu.");
+            ((BukkitCommand) dynamicCommand).setDescription("打开家园菜单。 ");
             commandMap.register(plugin.getDescription().getName(), dynamicCommand);
         } catch (Exception e) {
-            plugin.getLogger().severe("Failed to register the dynamic command: " + commandName);
+            plugin.getLogger().severe("注册动态命令失败： " + commandName);
             e.printStackTrace();
         }
     }

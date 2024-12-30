@@ -30,7 +30,9 @@ public final class SetHome extends JavaPlugin {
         commandExecutor = new HomeCommandExecutor(this);
         // Registrar el comando dinámico
         HomeCommandExecutor.registerDynamicCommand(this, userCommand);
-        getLogger().info("SetHome plugin enabled with command: /" + userCommand);
+        getLogger().info("SetHome 插件已启用，命令: / " + userCommand);
+        getLogger().info("汉化自 @柠枺(https://ningmo.fun)");
+
 
         //Metrics
         int pluginId = 	23348;
@@ -57,8 +59,8 @@ public final class SetHome extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        console.sendMessage("[SetHome] Saving your home...");
-        console.sendMessage("[SetHome] Saving config.");
+        console.sendMessage("[SetHome] 正在保存你的家园... ");
+        console.sendMessage("[SetHome] 正在保存配置。 ");
     }
 
     public void registerConfig(){
